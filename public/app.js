@@ -107,6 +107,6 @@ function local() {
   S.materiales.forEach(m => { const u = S.mov.filter(x => x.codigo === m.codigo && x.tipo === 'egreso' && x.ts > hoy() - 14 * dia).reduce((a, x) => a + x.cant, 0) / 14, d = u ? m.stock / u : 999;
     if (d < 7 || m.stock < m.minimo) sug.push({ codigo: m.codigo, cant: Math.ceil(Math.max(m.minimo * 2 - m.stock, u * 14)), motivo: `quedan ~${d > 900 ? '—' : d.toFixed(1)} días de stock` }); });
   S.obras.forEach(o => o.gasto / o.presupuesto > .8 && rie.push(`${o.nombre} superó el 80% del presupuesto.`));
-  return { resumen: sug.length ? `Se detectan ${sug.length} materiales con riesgo de faltante.` : 'No se detectan faltantes próximos.', riesgos: rie, sugerencias: sug, origen: 'cálculo local (sin IA)' };
+  return { resumen: sug.length ? `Se detectan ${sug.length} materiales con riesgo de faltante.` : 'No se detectan faltantes próximos.', riesgos: rie, sugerencias: sug, origen: 'calculo predictivo' };
 }
 cargar().catch(() => { $('#v').innerHTML = '<div class="card">No se pudo conectar con el servidor o la base de datos. Revisá DATABASE_URL en .env.</div>'; });
